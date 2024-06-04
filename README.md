@@ -63,13 +63,12 @@ You have 2 options to run the project:
 ### Using your local machine
 
 ## How aport to the project
-- Use conventional commits. (Learn it. here)[]
-- Use Ship / Show / Ask (Learn it. here)[https://martinfowler.com/articles/ship-show-ask.html]
-- Use PEP8 for Python code. (Learn it. here
+- Use conventional commits. [Learn it. here](https://www.conventionalcommits.org/en/v1.0.0/#summary)
+- Use Ship / Show / Ask [Learn it. here](https://martinfowler.com/articles/ship-show-ask.html)
+- Use PEP8 for Python code.
 
-
-## TODOLIST
-[ ] Project skelethon and docs
+## TODO
+[X] Project skelethon and docs
   - Django
   - Docker and docker-compose
   - Django Rest Framework
@@ -79,3 +78,14 @@ You have 2 options to run the project:
   - loans
   - payments
   - customers -> Django User
+
+### Endpoints
+- POST: /api/customers/
+- GET: /api/customers/
+- GET: /api/customers/balance
+- GET: /api/customers/{customer_id}/loans
+- GET: /api/customers/{customer_id}/payments
+- POST: /api/loans
+- GET: /api/loans
+- POST: /api/payments
+- GET: /api/payments
