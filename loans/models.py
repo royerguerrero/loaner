@@ -17,7 +17,7 @@ class Loan(models.Model):
 
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     outstanding = models.DecimalField(max_digits=12, decimal_places=2)
-    status = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.PENDING.value)
+    status = models.PositiveSmallIntegerField(choices=Status.choices, default=Status.PENDING)
     contract_version = models.CharField(max_length=30)
     maximum_payment_date = models.DateTimeField()
     taken_at = models.DateTimeField()

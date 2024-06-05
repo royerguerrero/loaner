@@ -17,6 +17,7 @@ class Payment(models.Model):
 
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.PositiveSmallIntegerField(choices=Status.choices)
+    paid_at = models.DateTimeField()
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
     external_id = models.CharField(max_length=60, unique=True)

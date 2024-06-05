@@ -67,21 +67,10 @@ You have 2 options to run the project:
 - Use Ship / Show / Ask [Learn it. here](https://martinfowler.com/articles/ship-show-ask.html)
 - Use PEP8 for Python code.
 
-## TODO
-[X] Project skelethon and docs
-  - Django
-  - Docker and docker-compose
-  - Django Rest Framework
-  - Create the MER model
-
-[ ] Create the models
-  - loans
-  - payments
-  - customers -> Django User
-
 ### Endpoints
-- POST: /api/customers/
 - GET: /api/customers/
+- POST: /api/customers/
+- POST: /api/customers/bulk
 - GET: /api/customers/balance
 - GET: /api/customers/{customer_id}/loans
 - GET: /api/customers/{customer_id}/payments
