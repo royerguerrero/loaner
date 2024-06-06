@@ -2,7 +2,7 @@
 
 # Django
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 
 # Third-party
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
@@ -23,7 +23,7 @@ urlpatterns = [
 
     path("api/v1/payments/", PaymentListView.as_view(), name="payments-list"),
 
-    path("api/v1/loans/", LoanListView.as_view(), name="loan-list"),
+    path("api/v1/loans/", LoanListView.as_view(), name="loans-list"),
 
     path("admin/", admin.site.urls),
 ]

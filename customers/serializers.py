@@ -14,6 +14,11 @@ from loans.models import Loan
 
 class CustomerSerializer(ModelSerializer):
     """Customer serializer"""
+    status = serializers.IntegerField(
+        default=Customer.Status.ACTIVE,
+        read_only=True,
+    )
+
     class Meta:
         model = Customer
         fields = ('external_id', 'status', 'score', 'preapproved_at')
@@ -40,7 +45,8 @@ class CustomerBalanceSerializer(ModelSerializer):
         Return total debt. the total debt is the sum of all outstanding loans
         """
         return Loan.objects.filter(
-            external_id=customer.external_id
+            external_id=customer.external_id,
+            status__in=(Loan.Status.PENDING, Loan.Status.ACTIVE) 
         ).aggregate(
             total_debt=Sum('outstanding')
         ).get('total_debt') or 0
