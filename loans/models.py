@@ -3,8 +3,9 @@
 # Django
 from django.db import models
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Models
 from customers.models import Customer
@@ -40,11 +41,25 @@ class Loan(models.Model):
         return f'Loan for {self.customer} of {self.amount} with status {self.status}'
 
 
+@receiver(pre_save, sender=Loan)
+def loan_pre_created_handler(instance: Loan, **kwargs):
+    """
+    Pre-save signal for Loan model 
+    """
+    if instance.status == Loan.Status.REJECTED:
+        previous = Loan.objects.get(id=instance.id)
+        if previous != Loan.Status.PENDING:
+            raise ValidationError('Only pending loans can be rejected')
+
+    if instance.outstanding == 0 and instance.status != Loan.Status.PAID:
+        instance.status = Loan.Status.PAID
+
+
 @receiver(post_save, sender=Loan)
 def loan_created_handler(instance: Loan, **kwargs):
     """
     Post-save signal for Loan model
     """
-    if instance.status == Loan.Status.ACTIVE:
+    if instance.status == Loan.Status.ACTIVE and not instance.taken_at:
         instance.taken_at = timezone.now()
         instance.customer.save()

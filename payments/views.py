@@ -62,7 +62,7 @@ class PaymentCustomerView(ListCreateAPIView):
                 loan=loan,
             )
             total_amount = total_amount - loan.outstanding
-            loan.outstanding = loan.outstanding - amount 
+            loan.outstanding = loan.outstanding - amount
             loan.save()
 
 

@@ -38,7 +38,7 @@ class LoanSerializer(ModelSerializer):
             **{
                 **validated_data,
                 "status": Loan.Status.ACTIVE,
-                "outstanding": 0,
+                "outstanding": validated_data['amount'],
                 "maximum_payment_date": timezone.now() + timedelta(weeks=30)
             },
         )

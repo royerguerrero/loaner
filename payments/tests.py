@@ -39,8 +39,9 @@ class PaymentAPITestCase(TestCase):
             kwargs={'external_id': self.customer.external_id}
         )
 
-    # def test_get_payments():
-    #     pass
+    def test_get_payments(self):
+        response = self.client.get(self.customer_payment)
+        self.assertEqual(response.status_code, 200)
 
     def test_create_payment_in_excess_of_total_deb(self):
         data = {
@@ -106,6 +107,18 @@ class PaymentAPITestCase(TestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, 201)
         self.assertEqual(len(response.data['loan_external_ids']), 3)
+        self.assertEqual(
+            Loan.objects.get(id=loan1.id).status,
+            Loan.Status.PAID.value
+        )
+        self.assertEqual(
+            Loan.objects.get(id=loan2.id).status,
+            Loan.Status.PAID.value
+        )
+        self.assertEqual(
+            Loan.objects.get(id=loan2.id).status,
+            Loan.Status.PAID.value
+        )
 
     def test_create_payment_partially_settle_all_debts(self):
         customer = Customer.objects.create(
@@ -119,7 +132,7 @@ class PaymentAPITestCase(TestCase):
             outstanding=200,
             maximum_payment_date=timezone.now() + timedelta(weeks=26),
             status=Loan.Status.ACTIVE,
-            customer=customer
+            customer=customer,
         )
         loan2 = Loan.objects.create(
             external_id=str(uuid.uuid4()),
