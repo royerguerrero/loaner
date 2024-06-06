@@ -7,6 +7,8 @@ from django.utils import timezone
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Models
 from payments.models import Payment, PaymentDetail
@@ -21,6 +23,8 @@ from customers.serializers import CustomerBalanceSerializer
 class PaymentCustomerView(ListCreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return super().get_queryset().filter(

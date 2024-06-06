@@ -5,6 +5,8 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from rest_framework import status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # Models
 from loans.models import Loan
@@ -22,6 +24,8 @@ class LoanListView(ListCreateAPIView):
     """Loan list view"""
     queryset = Loan.objects.filter(status=Loan.Status.ACTIVE)
     serializer_class = LoanSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

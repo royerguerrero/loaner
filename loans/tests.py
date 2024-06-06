@@ -4,10 +4,12 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Django REST Framework
 from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 
 # Models
 from loans.models import Loan
@@ -39,6 +41,13 @@ class LoanAPITestCase(TestCase):
             status=Loan.Status.ACTIVE,
             customer=self.customer
         )
+
+        user = User.objects.create_user(
+            username='joe',
+            password='doe'
+        )
+        token = Token.objects.get(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.list_url = reverse('loans-list')
 
     def test_get_loans(self):

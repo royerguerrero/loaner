@@ -4,14 +4,16 @@
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Django REST Framework
 from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 
 # Models
 from customers.models import Customer
 from loans.models import Loan
-from payments.models import Payment, PaymentDetail
+from payments.models import Payment
 
 # Build-ins
 from datetime import timedelta
@@ -34,6 +36,13 @@ class PaymentAPITestCase(TestCase):
             status=Loan.Status.ACTIVE,
             customer=self.customer
         )
+
+        user = User.objects.create_user(
+            username='joe', 
+            password='doe'
+        )
+        token = Token.objects.get(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.customer_payment = reverse(
             'customer-payments',
             kwargs={'external_id': self.customer.external_id}

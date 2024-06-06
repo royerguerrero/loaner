@@ -4,7 +4,8 @@
 from django.contrib import admin
 from django.urls import path
 
-# Third-party
+# Django REST Framework
+from rest_framework.authtoken import views
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 # Views
@@ -25,4 +26,5 @@ urlpatterns = [
     path("api/v1/loans/", LoanListView.as_view(), name="loans-list"),
 
     path("admin/", admin.site.urls),
+    path('api-token-auth/', views.obtain_auth_token)
 ]

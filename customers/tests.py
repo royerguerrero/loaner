@@ -4,9 +4,11 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Django REST Framework
 from rest_framework.test import APIClient
+from rest_framework.authtoken.models import Token
 from rest_framework import status
 
 # Models
@@ -15,7 +17,6 @@ from loans.models import Loan
 
 # Build-ins
 import uuid
-from django.urls import reverse
 
 
 class CustomerAPITestCase(TestCase):
@@ -27,10 +28,17 @@ class CustomerAPITestCase(TestCase):
             external_id=str(uuid.uuid4())
         )
 
+        user = User.objects.create_user(
+            username='joe', 
+            password='doe'
+        )
+        token = Token.objects.get(user=user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
+
         self.list_url = reverse('customers-list')
         self.bulk_url = reverse('customers-bulk')
         self.balance_url = reverse(
-            'customer-balance', 
+            'customer-balance',
             kwargs={'external_id': self.customer.external_id}
         )
 
