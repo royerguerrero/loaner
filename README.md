@@ -94,5 +94,3 @@ DATABASE_PORT={{ DATABASE_PORT }}
 - GET: /api/customers/{customer_id}/payments
 - POST: /api/loans
 - GET: /api/loans
-- POST: /api/payments
-- GET: /api/payments

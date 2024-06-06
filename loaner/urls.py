@@ -10,7 +10,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 # Views
 from loans.views import LoanListView
 from customers.views import CustomerListView, CustomerBulkCreationView, CustomerBalanceView
-from payments.views import PaymentListView
+from payments.views import PaymentCustomerView
 
 urlpatterns = [
     path("", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger"),
@@ -20,8 +20,7 @@ urlpatterns = [
     path("api/v1/customers/", CustomerListView.as_view(), name="customers-list"),
     path("api/v1/customers/bulk", CustomerBulkCreationView.as_view(), name="customers-bulk"),
     path("api/v1/customers/<str:external_id>/balance", CustomerBalanceView.as_view(), name="customer-balance"),
-
-    path("api/v1/payments/", PaymentListView.as_view(), name="payments-list"),
+    path("api/v1/customers/<str:external_id>/payments", PaymentCustomerView.as_view(), name="customer-payments"),
 
     path("api/v1/loans/", LoanListView.as_view(), name="loans-list"),
 
